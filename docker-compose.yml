@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+        personal-website:
+                build: .
+                volumes:
+                        - .:/usr/share/nginx/html/
+                        - .:/var/www/html/
+                ports:
+                        - 5001:80

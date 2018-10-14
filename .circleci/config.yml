@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    branches:
+      only:
+        - master
+    steps:
+      - checkout
+      - run:
+          name: Docker & AWS login
+          command: |
+            aws ecr get-login --no-include-email --region eu-west-2 | bash
+            docker login --username=$DOCKER_USER --password=$DOCKER_PASS
+
+      - run: 
+          name: Build docker image
+          command: |
+           docker build -t $CIRCLE_PROJECT_REPONAME:latest .
+
+      - run:
+          name: Docker tag(s)
+          command: |
+            # FOR AWS REPO
+            docker tag $CIRCLE_PROJECT_REPONAME:latest $REPO_LOCATION/$CIRCLE_PROJECT_REPONAME:latest
+            docker tag $CIRCLE_PROJECT_REPONAME:latest $REPO_LOCATION/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM
+            docker tag $CIRCLE_PROJECT_REPONAME:latest $REPO_LOCATION/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1
+            # FOR DOCKER REPO
+            docker tag $CIRCLE_PROJECT_REPONAME:latest shmink/$CIRCLE_PROJECT_REPONAME:latest
+            docker tag $CIRCLE_PROJECT_REPONAME:latest shmink/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM
+
+      - run:
+          name: Docker push
+          command: |
+            # FOR AWS REPO
+            docker push $REPO_LOCATION/$CIRCLE_PROJECT_REPONAME:latest 
+            docker push $REPO_LOCATION/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM
+            docker push $REPO_LOCATION/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1
+            # FOR DOCKER REPO
+            docker push shmink/$CIRCLE_PROJECT_REPONAME:latest 
+            docker push shmink/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM
