@@ -4,7 +4,7 @@ var quotes = JSON.parse('{\
     "2": "No problem should ever have to be solved twice. -- Eric S. Raymond, How to become a hacker", \
     "3": "Attitude is no substitute for competence. -- Eric S. Raymond, How to become a hacker", \
     "4": "It is said that the real winner is the one who lives in today but able to see tomorrow. -- Juan Meng", \
-    "5": "Fools ignore complexity.Pragmatists suffer it.Some can avoid it. Geniuses remove it. -- Alan J.Perlis(Epigrams in programming)", \
+    "5": "Fools ignore complexity. Pragmatists suffer it. Some can avoid it. Geniuses remove it. -- Alan J.Perlis(Epigrams in programming)", \
     "6": "A year spent in artificial intelligence is enough to make one believe in God. -- Alan J.Perlis(Epigrams in programming)", \
     "7": "Dealing with failure is easy: Work hard to improve.Success is also easy to handle: You\'ve solved the wrong problem. Work hard to improve. -- Alan J.Perlis(Epigrams in programming)", \
     "8": "Within a computer natural language is unnatural. -- Alan J.Perlis(Epigrams in programming)", \
@@ -52,11 +52,15 @@ var quotes = JSON.parse('{\
     "50": "I would rather be an optimist and be wrong than a pessimist who proves to be right. The former sometimes wins, but never the latter. -- Hoots" \
 }');
 
+
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
-var num = Math.floor(getRandomArbitrary(0, Object.keys(quotes).length));
-console.log(num);
-console.log(quotes[num]);
-console.log(Object.keys(quotes).length - 1)
-document.getElementById('quote').innerHTML = quotes[num];
+
+function updateQuote() {
+    var num = Math.floor(getRandomArbitrary(0, Object.keys(quotes).length));
+    document.getElementById("quote").innerHTML = quotes[num];
+}
+
+updateQuote();
+setInterval(updateQuote, 5000);
