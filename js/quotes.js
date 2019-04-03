@@ -63,4 +63,4 @@ function updateQuote() {
 }
 
 updateQuote();
-setInterval(updateQuote, 5000);
+setInterval(updateQuote, 8000);
