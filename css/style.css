@@ -111,6 +111,12 @@ p {
   display: inline-flex;
   list-style: none;
   width: 100%;
+  padding: 0;
+
+}
+
+.social li {
+  width: 20%;
 }
 
 .contactimg {
